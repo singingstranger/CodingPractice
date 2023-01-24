@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Intro to Babylon.js</title>
+    <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
+    
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+    
+    <style>
+      #canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById("canvas");
+        const engine = new BABYLON.Engine(canvas, true);
+
+        const createScene = function () {
+          const scene = new BABYLON.Scene(engine);
+        
+          const camera = new BABYLON.FreeCamera(
+            "camera1",
+            new BABYLON.Vector3(0, 5, -10),
+            scene
+          );
+          camera.setTarget(BABYLON.Vector3.Zero());
+          camera.attachControl(canvas, true);
+          camera.speed = 0.25;
+          
+          const light = new BABYLON.HemisphericLight(
+            "light",
+            new BABYLON.Vector3(0, 1, 0),
+            scene
+          );  
+          
+          const sphere = new BABYLON.MeshBuilder.CreateSphere("sphere",scene);
+          const ground = new BABYLON.MeshBuilder.CreateGround(
+            "ground",
+            { width: 6, height: 6 },
+            scene
+          );
+          
+          
+          BABYLON.SceneLoader.ImportMeshAsync(
+              "",
+              "https://cdn.glitch.global/018e1cac-c0ce-4243-89a6-2d352e09458e/",
+              "wineglass.gltf?v=1673592551484".then( function(meshes))             
+              {                
+                var vectorScale = new BABYLON.Vector3(5,5,5);
+                meshes[0].scaling = vectorScale;
+                
+                var vectorPosition = new BABYLON.Vector3(2,0,1);
+                meshes[0].position = vectorPosition;
+                
+                console.log("My base Mesh is called: ");
+                console.log(meshes.meshes[0]);
+                let rootMesh = meshes.meshes[0];
+                rootMesh.name = "baseModelMesh";
+                meshes.meshes.forEach(mesh => {
+                  mesh.isPickable = true;
+                });
+              }
+          );
+          const challah = new BABYLON.SceneLoader.ImportMesh(
+            "",
+            "https://cdn.glitch.global/018e1cac-c0ce-4243-89a6-2d352e09458e/",
+            "challah.gltf?v=1673598256346",
+            scene,
+            function(meshes){
+              
+              var challah = meshes[0];
+            
+              challah.scaling = new BABYLON.Vector3(0.3,0.3,0.3);
+              challah.rotate(new BABYLON.Vector3(0, 2, 0), Math.PI / 3, BABYLON.Space.WORLD);
+              challah.position = new BABYLON.Vector3(-2,0,0);
+              
+              var challah2 = challah.clone("challah2");
+              challah2.position = new BABYLON.Vector3(-0.5,0,0);
+              challah2.rotation = new BABYLON.Vector3(0,0.8,0);
+              
+              console.log("My base Mesh is called: ");
+              console.log(meshes.meshes[0]);
+              let rootMesh = meshes.meshes[0];
+              rootMesh.name = "baseModelMesh";
+              meshes.meshes.forEach(mesh => {
+                mesh.isPickable = true;
+              });
+            }
+          );
+          BABYLON.SceneLoader.ImportMesh(
+            "Plate",
+            "https://cdn.glitch.global/018e1cac-c0ce-4243-89a6-2d352e09458e/",
+            "plate.gltf?v=1673606171441",
+            scene,
+            
+            function(meshes){
+              var plate = meshes[0];
+              plate.position = new BABYLON.Vector3(-1,0,0);
+              plate.scaling = new BABYLON.Vector3(2,2,2);
+              var boundingBox =
+              BABYLON.BoundingBoxGizmo.MakeNotPickableAndWrapInBoundingBox(meshes[0]);
+              boundingBox.name = "Model";
+              isPickable = true;
+              
+              console.log("My base Mesh is called: ");
+                console.log(meshes.meshes[0]);
+                let rootMesh = meshes.meshes[0];
+                rootMesh.name = "baseModelMesh";
+                meshes.meshes.forEach(mesh => {
+                  mesh.isPickable = true;
+                });
+            }
+          );
+          
+          
+          scene.onPointerDown = function castRay(){
+            var ray = scene.createPickingRa(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), camera);
+            
+            var hit = scene.pickWithRay(ray);
+            if (hit.pickedMesh){
+              console.Log("hit");
+            }
+          }
+          
+          
+         /* function vecToLocal(vector,mesh){
+            var m = mesh.getWorldMatrix();
+            var v = BABYLON.Vector3.TransformCoordinates(vector, m);
+            return v;
+          }
+          
+          function castRay(){
+            var origin = sphere.position;
+            var forward = new BABYLON.Vector3(0,0,1);
+            forward = vecToLocal(forward, sphere);
+            
+            var direction = forward.subtract(origin);
+            direction = BABYLON.Vector3.Normalize(direction);
+            
+            var length = 100;
+            var ray = new BABYLON.Ray(origin, direction, length);
+            
+            var plate = scene.getMeshByName("Plate");
+            var hit = scene.pickWithRay(ray);
+            if (hit.pickedMesh&& hit.pickedMesh.name == "sphere"){
+              console.log(hit.pickedMesh.name);
+              hit.pickedMesh.scaling.y += 0.01;
+            }
+          }
+          
+          scene.registerBeforeRender(function () {
+          castRay();
+          });*/
+          return scene;
+        };
+
+        const scene = createScene();
+        
+        engine.runRenderLoop(function () {
+          scene.render();
+        });
+      });
+    </script>
+  </body>
+</html>
