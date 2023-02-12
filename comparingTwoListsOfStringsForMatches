@@ -1,0 +1,92 @@
+//in my defense of this code, I wrote it at midnight because I needed to find overlapping numbers and was too tired to do that, but awake enough to code. 
+
+
+using System;
+using System.Collections.Generic;
+					
+public class Program
+{
+    public static bool FirstRun = true;
+	public static List<string> ListofCoverNumbers = new List<string>();
+    public static List<string> ListofDrawerNumbers = new List<string>();
+	public static void Main()
+	{
+        if (FirstRun){
+            Console.WriteLine("SHELF COVER");
+            FirstRun = false;
+        }
+		Console.WriteLine("Enter a string or write DONE to commit the entry");
+		string inputLine= Console.ReadLine();
+		Console.WriteLine("You entered the string: "+inputLine );
+        
+        SanitizeCoverString(inputLine);
+	}
+	public static void SanitizeCoverString(string inputLine){
+        if (inputLine == "DONE"){
+            Console.WriteLine("You are done adding Cover Numbers.");
+            if (ListofCoverNumbers.Count!=0){
+            Console.WriteLine( "You previously entered:");
+            foreach (string number in ListofCoverNumbers)
+            {
+                Console.WriteLine(number);
+            }
+        }
+            FirstRun = true;
+            EnterDrawerNumbers();
+        }
+        else{
+            ListofCoverNumbers.Add(inputLine);
+            Main();
+        }
+	}
+
+    public static void EnterDrawerNumbers(){
+         if (FirstRun){
+            Console.WriteLine("SHELF DRAWER");
+            FirstRun = false;
+        }
+        Console.WriteLine("Enter a string or write DONE to commit the entry");
+		string inputLine= Console.ReadLine();
+		Console.WriteLine("You entered the string: "+inputLine );
+        
+        SanitizeDrawerString(inputLine);
+    }
+    public static void SanitizeDrawerString(string inputLine){
+        if (inputLine == "DONE"){
+            Console.WriteLine("You are done adding Drawer Numbers.");
+            if (ListofDrawerNumbers.Count!=0){
+            Console.WriteLine( "You previously entered:");
+            foreach (string number in ListofDrawerNumbers)
+            {
+                Console.WriteLine(number);
+            }
+        }
+            NumberComparer();
+        }
+        else{
+            ListofDrawerNumbers.Add(inputLine);
+            EnterDrawerNumbers();
+        }
+	}
+
+
+    public static void NumberComparer(){
+        int numberOfShelves = 0;
+        bool anymatches = false;
+        foreach(string coverNumber in ListofCoverNumbers)
+        {
+            numberOfShelves ++;
+            int numberOfDrawers = 0;
+            foreach (string drawerNumber in ListofDrawerNumbers){
+                numberOfDrawers ++;
+                if (coverNumber == drawerNumber){
+                    anymatches = true;
+                    Console.WriteLine(coverNumber + " and " +drawerNumber +" are the same. Cover index: " + numberOfShelves + ", Drawer index: " + numberOfDrawers);
+                }
+            }
+        }
+        if (!anymatches){
+            Console.WriteLine("No Matches");
+        }
+    }
+}
