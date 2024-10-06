@@ -1,7 +1,4 @@
-const _rootDirimage = "./img/"
-const _dirCharacters = "Characters/"
 const _dirBattle = "Battle/"
-const _dirEnemies = "Enemies/"
 const _dirOverworld = "Overworld/"
 
 const _startingpositionTestScreen = [-80,-200];
@@ -10,7 +7,7 @@ let _offset = {
     y: _startingpositionTestScreen[1]
 }
 const _startingPosTileCount = 30;
-const _zoomLevel = 2.5;
+const _zoomLevel = 2.4;
 
 const _playerSpriteFrames = 3;
 const _playerSpriteDimensions = { x: 168, y: 100}
@@ -53,6 +50,7 @@ function SetTileSize(zoom){
 
 
 //START
+document.querySelector("#userInterface").style.display = "none";
 gsap.to("#overlappingDiv", {
     opacity:0,
     duration: 1
@@ -66,8 +64,8 @@ _collisionMaps.forEach((row, i) => {
         if (symbol != 0){
             _boundaries.push(new Boundary({
                 position:{
-                    x: j * _tileDimensions + _offset.x -_tileDimensions,
-                    y: i * _tileDimensions + _offset.y-_tileDimensions
+                    x: j * _tileDimensions + _offset.x -_tileDimensions/2,
+                    y: i * _tileDimensions + _offset.y-_tileDimensions/2
             }}))
         }
     })
@@ -79,8 +77,8 @@ _battleMaps.forEach((row, i) => {
         if (symbol!=0){
             _battleTiles.push(new Boundary({
                 position:{
-                    x: j * _tileDimensions + _offset.x - _tileDimensions,
-                    y: i * _tileDimensions + _offset.y - _tileDimensions
+                    x: j * _tileDimensions + _offset.x - _tileDimensions/2,
+                    y: i * _tileDimensions + _offset.y - _tileDimensions/2
                 }
             }))
         }
@@ -95,25 +93,13 @@ const _playerRightImage = new Image();
 _playerRightImage.src = _rootDirimage+_dirCharacters+"marinRight.png";
 const _playerLeftImage = new Image();
 _playerLeftImage.src = _rootDirimage+_dirCharacters+"marinLeft.png";
-const _playerSpecialImage = new Image();
-_playerSpecialImage.src = _rootDirimage+_dirCharacters+"marinSpecial.png";
-
-const _enemyEntryImage = new Image();
-_enemyEntryImage.src = _rootDirimage+_dirEnemies+"Slime/slimeEntry.png";
-const _enemyIdleImage = new Image();
-_enemyIdleImage.src = _rootDirimage+_dirEnemies+"Slime/slimeBlinking.png";
-const _enemyAttackImage = new Image();
-_enemyAttackImage.src = _rootDirimage+_dirEnemies+"Slime/slimeAttack.png";
-const _enemyHurtImage = new Image();
-_enemyHurtImage.src = _rootDirimage+_dirEnemies+"Slime/slimeHurt.png";
-
 
 const _startScreen = new Image();
 _startScreen.src = _rootDirimage+_dirOverworld+"Testscreen.png";
 _currentBackground = _startScreen;
 
 const _secondScreen = new Image();
-_secondScreen.src = _rootDirimage+_dirBattle+"TestBattlescreen.png";
+_secondScreen.src = _rootDirimage+_dirBattle+"TestBattlescreen2.png";
 
 
 
@@ -134,6 +120,7 @@ const _battleBG = new Sprite({
 });
 
 const _player = new Sprite({
+    name: "You",
     position: {
         x: _canvas.width/2 - _playerSpriteDimensions.x/_playerSpriteFrames/2,
         y:  _canvas.height/2 - _playerSpriteDimensions.y/2,
@@ -148,39 +135,6 @@ const _player = new Sprite({
         special: _playerSpecialImage
     },
     isEnemy: false
-})
-
-const _battlePlayer = new Sprite({
-    position: {
-        x: _canvas.width/5,
-        y: _canvas.height/3
-    },
-    image: _playerSpecialImage,
-    frames: { max: _playerSpriteFrames, hold: 20},
-    animate: true,
-    isEnemy: false,
-    sprites: {
-        entry:_playerSpecialImage,
-        idle: _playerSpecialImage,
-        attack: _playerSpecialImage,
-        hurt: _playerSpecialImage
-    }
-})
-
-const _enemy = new Sprite({
-    position: {
-        x: _canvas.width/5 * 3,
-        y: _canvas.height/3
-    },
-    image: _enemyEntryImage,
-    frames: { max: _playerSpriteFrames, hold: 30},
-    sprites: {
-        entry: _enemyEntryImage,
-        idle: _enemyIdleImage,
-        attack: _enemyAttackImage,
-        hurt: _enemyHurtImage
-    },
-    animate: true
 })
 
 _startScreen.onload = () => {
@@ -209,28 +163,6 @@ function RectangularCollision({rectangle1, rectangle2}){
         rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
-}
-function Activatebattle(animID){
-    gsap.to("#overlappingDiv", {
-        opacity:1,
-        repeat: 3,
-        yoyo: true,
-        duration: 0.3,
-        onComplete(){
-            gsap.to("#overlappingDiv", {
-                opacity:1,
-                duration: 0.3,
-                onComplete(){
-                    AnimateBattle(),
-                    gsap.to("#overlappingDiv",{
-                        opacity:0,
-                        duration:1
-                    })
-                }
-            })
-        }
-    });
-    window.cancelAnimationFrame(animID);
 }
 function Animate(){
     const animationID = window.requestAnimationFrame(Animate);
@@ -264,7 +196,7 @@ function Animate(){
                 overlappingArea > (_player.width * _player.height/2) && Math.random() < _encounterRate
             ){
                 console.log("entered battle tile");
-                Activatebattle(animationID);
+                InitBattle(animationID);
                 _battle.initiated = true;
                 _player.animate = false;
                 break;
@@ -382,80 +314,3 @@ function Animate(){
         })
     }
 }
-
-function AnimateBattle(){
-    const animationBattleID = window.requestAnimationFrame(AnimateBattle); 
-    _battleBG.draw();
-    _enemy.draw();
-    _battlePlayer.draw();
-}
-
-function CalculateDamage(attack, recipient){
-    let remainingHealth;
-    recipient.health -= attack;
-    remainingHealth = recipient.health;
-    return remainingHealth;
-}
-
-document.querySelectorAll("button").forEach(button => {
-    button.addEventListener("click", () => {
-        _battlePlayer.attack({attack: {
-            name: "Tackle",
-            damage: 50,
-            type: "Normal"
-            },
-            recipient: _enemy,
-            remainingHealthPercent: CalculateDamage(50, _enemy),
-        });
-    })
-});
-
-let _lastkey = " ";
-window.addEventListener("keydown", (e) => {
-    switch (e.key){
-        case "w":
-            _keys.w.pressed = true;
-            _keys.a.pressed = false;
-            _keys.s.pressed = false;
-            _keys.d.pressed = false;
-            _lastkey = "w";
-            break;
-        case "a":
-            _keys.a.pressed = true;
-            _keys.w.pressed = false;
-            _keys.s.pressed = false;
-            _keys.d.pressed = false;
-            _lastkey = "a";
-            break;
-        case "s":           
-            _keys.w.pressed = false;
-            _keys.a.pressed = false;
-            _keys.s.pressed = true;
-            _keys.d.pressed = false;
-            _lastkey = "s";
-            break;
-        case "d":
-            _keys.w.pressed = false;
-            _keys.a.pressed = false;
-            _keys.s.pressed = false;
-            _keys.d.pressed = true;
-            _lastkey = "d"; 
-            break;
-    }
-})
-window.addEventListener("keyup", (e) => {
-    switch (e.key){
-        case "w":
-            _keys.w.pressed = false;
-            break;
-        case "a":
-            _keys.a.pressed = false;
-            break;
-        case "s":
-            _keys.s.pressed = false;
-            break;
-        case "d":
-            _keys.d.pressed = false;
-            break;
-    }
-})
