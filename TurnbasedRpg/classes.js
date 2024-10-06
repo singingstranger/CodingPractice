@@ -78,7 +78,7 @@ class Monster extends Sprite{
         animate = false,
 
         name = "Someone",
-        health = 100,
+        health = {max: 100, current},
         isEnemy = true,
         attacks
     }){
@@ -91,7 +91,7 @@ class Monster extends Sprite{
             animate,
         })
         this.name = name;
-        this.health = health;
+        this.health = {max: health.max, current: health.max};
         this.isEnemy = isEnemy;
         this.attacks = attacks;
     }

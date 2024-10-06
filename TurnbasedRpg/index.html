@@ -59,40 +59,40 @@
     <canvas></canvas>
     <div id="userInterface">
         <!-- Player status bar -->
-        <div 
-        id="playerStatusBar" 
+        <div id="playerStatusBar" 
         style="
             position: absolute; 
             background-color: black; 
             width: 25%; 
             height: 10%; 
             left: 10%; 
-            top: 5%;
+            top:5%;
             border-left: 5px blue solid;">
-            <h1 style="margin: 5px;"> Player </h1>
-            <div id="playerHealthBar" style="position: relative;">
-                <div 
-                id="playerPotentialHealthbar" 
-                style="height:5px; 
-                background-color: white; 
-                margin: 5px;">
-                
-                </div>
+            <div style="margin:5px; height: 100%">
+                <h1 style="margin: 5px;"> Player </h1>
+                <div id="playerHealthBar" style="position: relative;">
+                    <div 
+                    id="playerPotentialHealthbar" 
+                    style="height:5px; 
+                    background-color: white; 
+                    ">
+                    
+                    </div>
 
-                <div 
-                id="playerCurrentHealthbar" 
-                style="height:5px; 
-                background-color: green; 
-                position: absolute; 
-                top: 0;
-                left: 5;
-                right: 5;">
+                    <div 
+                    id="playerCurrentHealthbar" 
+                    style="height:5px; 
+                    background-color: green; 
+                    position: absolute; 
+                    margin-right: 5px;
+                    margin-left: 0px;
+                    top: 0;">
+                    </div>
                 </div>
             </div>
         </div>
     <!-- Enemy status bar -->
-        <div 
-        id="enemyStatusBar"
+        <div id="enemyStatusBar"
         style="
             position: absolute; 
             background-color: black; 
@@ -101,24 +101,27 @@
             right: 10%; 
             top:5%;
             border-left: 5px red solid;">
-            <h1 style="margin: 5px;"> Slime </h1>
-            <div id="enemyHealthBar" style="position: relative;">
-                <div 
-                id="enemyPotentialHealthbar" 
-                style="height:5px; 
-                background-color: white; 
-                margin: 5px;">
+            <div style="margin:5px; height: 100%">
+                <h1 style="margin: 5px;"> Slime </h1>
+                <div id="enemyHealthBar" style="position: relative;">
+                    <div 
+                    id="enemyPotentialHealthbar" 
+                    style="height:5px; 
+                    background-color: white; 
+                    ">
 
-                </div>
+                    </div>
 
-                <div 
-                id="enemyCurrentHealthbar" 
-                style="height:5px; 
-                background-color: green; 
-                position: absolute; 
-                top: 0;
-                left: 5;
-                right: 5;">
+                    <div 
+                    id="enemyCurrentHealthbar" 
+                    style="height:5px; 
+                    background-color: green; 
+                    position: absolute; 
+                    margin-right: 5px;
+                    margin-left: 0px;
+                    top: 0;
+                    ">
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,12 +4,9 @@ let _battleQueue;
 let _battlePlayer = new Monster(monsters.Player);
 let _enemy = new Monster(monsters.Slime);
 
-let _battleAnimationID;
 
-function InitBattle(animationID){
-    if (_battleAnimationID){
-        window.cancelAnimationFrame(_battleAnimationID);
-    }
+function InitBattle(){
+    
     document.querySelector("#dialogueBox").style.display = "none";
     document.querySelector("#enemyCurrentHealthbar").style.width = "100%";
     document.querySelector("#playerCurrenthealthbar").style.width = "100%";
@@ -47,8 +44,6 @@ function InitBattle(animationID){
             attackType.innerHTML = attackTypeInfo;
             attackType.style.color = selectedAttack.color;
         })
-
-        Activatebattle(animationID);
     });
     console.log("finished init");
 
@@ -91,6 +86,7 @@ function GetRandomAttack(enemy){
 }
 
 function Activatebattle(animID){
+    InitBattle();
     _renderedSprites.push(_enemy);
     _renderedSprites.push(_battlePlayer);
     gsap.to("#overlappingDiv", {
@@ -132,9 +128,15 @@ function AnimateBattle(){
 }
 
 function CalculateDamage(attack, recipient){
+    console.log(attack);
     let remainingHealth;
-    recipient.health -= attack;
-    remainingHealth = recipient.health;
+    recipient.health.current -= attack;
+    if (recipient.health.current<0){
+        recipient.health.current = 0;
+    }
+    remainingHealth = recipient.health.current/recipient.health.max * 100;
+    console.log(remainingHealth);
+    console.log(recipient.health.current)
     return remainingHealth;
 }
 
@@ -169,6 +171,7 @@ function ReduceHealthBar({recipient, remainingHealthPercent}){
             recipient.image = recipient.sprites.idle;
         }
     })
+    healthBar.width;
 }
 
 function TackleAttack({attacker, recipient}){
@@ -261,7 +264,7 @@ function SpawnAttackSprite({attack, attacker, recipient, renderedSprites}){
 }
 
 function CheckHealth(monster){
-    return monster.health > 0;
+    return monster.health.current > 0;
 }
 
 function EnemyFaint(enemy){
@@ -289,6 +292,9 @@ function PlayerFaint(player){
 }
 
 function ReturnToOverworld(){
+    if (_battlePlayer.health.current <= 0){
+        Restart();
+    }
     gsap.to("#overlappingDiv", {
         opacity:1,
         onComplete(){

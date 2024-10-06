@@ -20,7 +20,10 @@ _enemyHurtImage.src = _rootDirimage+_dirEnemies+"Slime/slimeHurt.png";
 const monsters = {
     Player: {
         name: "You",
-        health: 100,
+        health: {
+            max: 100,
+            current:100,
+        },
         position: {
             x: 200,
             y: 200
@@ -39,7 +42,7 @@ const monsters = {
     },
     Slime: {
         name: "Slime",
-        health: 50,
+        health: {max: 50, current:50},
         position: {
             x: 700,
             y: 200

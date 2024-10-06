@@ -51,6 +51,7 @@ function SetTileSize(zoom){
 
 //START
 document.querySelector("#userInterface").style.display = "none";
+console.log(document.querySelector("#userInterface"));
 gsap.to("#overlappingDiv", {
     opacity:0,
     duration: 1
@@ -196,7 +197,7 @@ function Animate(){
                 overlappingArea > (_player.width * _player.height/2) && Math.random() < _encounterRate
             ){
                 console.log("entered battle tile");
-                InitBattle(animationID);
+                Activatebattle(animationID);
                 _battle.initiated = true;
                 _player.animate = false;
                 break;

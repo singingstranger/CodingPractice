@@ -16,3 +16,7 @@ function TimeUpdate(){
         return true;
     }
 }
+
+function Restart(){
+    location.reload();
+}
