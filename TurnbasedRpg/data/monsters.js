@@ -1,7 +1,3 @@
-const _rootDirimage = "./img/"
-const _dirEnemies = "Enemies/"
-const _dirCharacters = "Characters/"
-
 const _playerSpecialImage = new Image();
 _playerSpecialImage.src = _rootDirimage+_dirCharacters+"marinSpecial.png";
 

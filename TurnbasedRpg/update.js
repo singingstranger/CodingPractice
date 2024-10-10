@@ -1,8 +1,4 @@
-const _frameTime = 10;
-let _timeLastFrame = 0;
-let _timeCurrent = 0;
-
-function TimeUpdate(){
+function TrackFrameUpdateTime(){
     let deltaTime = 0;
     _timeCurrent = new Date();
     if (_timeLastFrame){
@@ -12,6 +8,7 @@ function TimeUpdate(){
         _timeLastFrame = _timeCurrent;
     }
     if(deltaTime>_frameTime){
+        console.log("render a frame");
         _timeLastFrame = _timeCurrent;
         return true;
     }

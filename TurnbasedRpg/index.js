@@ -1,53 +1,10 @@
-const _dirBattle = "Battle/"
-const _dirOverworld = "Overworld/"
-
-const _startingpositionTestScreen = [-80,-200];
-let _offset = {
-    x: _startingpositionTestScreen[0],
-    y: _startingpositionTestScreen[1]
-}
-const _startingPosTileCount = 30;
-const _zoomLevel = 2.4;
-
-const _playerSpriteFrames = 3;
-const _playerSpriteDimensions = { x: 168, y: 100}
-let _playerAnimationSpeed = 10;
-let _tileDimensions = 25;
-let _currentBackground;
-
-let _movables = [];
-let _movementSpeed = 3;
-
-
-const _canvas = document.querySelector("canvas");
-const _context = _canvas.getContext("2d");
-
-const _spritesheetDimensions = [3, 1]
-
-_canvas.width = 1024;
-_canvas.height = 576;
-
-const _collisionMaps = []
-for (let i = 0; i<collision.length; i+=_startingPosTileCount){
-    _collisionMaps.push(collision.slice(i,i+_startingPosTileCount));
-}
-
-const _battleMaps = []
-for (let i = 0; i < battleTilesData.length; i+=_startingPosTileCount){
-    _battleMaps.push(battleTilesData.slice(i, i+_startingPosTileCount));
-}
-let _encounterRate = 0.01
-const _battle = {
-    initiated: false
-}
+let _battlePlayer = new Monster(monsters.Player);
+let _enemy = new Monster(monsters.Slime);
 
 
 function SetTileSize(zoom){
     _tileDimensions *= zoom;
 }
-
-
-
 
 //START
 document.querySelector("#userInterface").style.display = "none";
@@ -65,8 +22,8 @@ _collisionMaps.forEach((row, i) => {
         if (symbol != 0){
             _boundaries.push(new Boundary({
                 position:{
-                    x: j * _tileDimensions + _offset.x -_tileDimensions/2,
-                    y: i * _tileDimensions + _offset.y-_tileDimensions/2
+                    x: j * _tileDimensions + _offset.x ,
+                    y: i * _tileDimensions + _offset.y
             }}))
         }
     })
@@ -78,8 +35,8 @@ _battleMaps.forEach((row, i) => {
         if (symbol!=0){
             _battleTiles.push(new Boundary({
                 position:{
-                    x: j * _tileDimensions + _offset.x - _tileDimensions/2,
-                    y: i * _tileDimensions + _offset.y - _tileDimensions/2
+                    x: j * _tileDimensions + _offset.x,
+                    y: i * _tileDimensions + _offset.y
                 }
             }))
         }
@@ -94,13 +51,6 @@ const _playerRightImage = new Image();
 _playerRightImage.src = _rootDirimage+_dirCharacters+"marinRight.png";
 const _playerLeftImage = new Image();
 _playerLeftImage.src = _rootDirimage+_dirCharacters+"marinLeft.png";
-
-const _startScreen = new Image();
-_startScreen.src = _rootDirimage+_dirOverworld+"Testscreen.png";
-_currentBackground = _startScreen;
-
-const _secondScreen = new Image();
-_secondScreen.src = _rootDirimage+_dirBattle+"TestBattlescreen2.png";
 
 
 

@@ -1,17 +1,10 @@
-let _renderedSprites;
-let _battleQueue;
-
-let _battlePlayer = new Monster(monsters.Player);
-let _enemy = new Monster(monsters.Slime);
-
-
 function InitBattle(){
     
+    _renderedSprites = [];
     document.querySelector("#dialogueBox").style.display = "none";
     document.querySelector("#enemyCurrentHealthbar").style.width = "100%";
     document.querySelector("#playerCurrenthealthbar").style.width = "100%";
     document.querySelector("#attacksBox").replaceChildren();
-    _renderedSprites = [];
     _battleQueue = [];
     _battlePlayer = new Monster(monsters.Player);
     _enemy = new Monster(monsters.Slime);
@@ -87,6 +80,8 @@ function GetRandomAttack(enemy){
 
 function Activatebattle(animID){
     InitBattle();
+    console.log(_enemy);
+    console.log(_renderedSprites);
     _renderedSprites.push(_enemy);
     _renderedSprites.push(_battlePlayer);
     gsap.to("#overlappingDiv", {
@@ -116,7 +111,7 @@ function AnimateBattle(){
     let lastTime = 0;
     let updated = false;
     while(!updated){
-        if (TimeUpdate()){
+        if (TrackFrameUpdateTime()){
             updated = true;
             _battleAnimationID = window.requestAnimationFrame(AnimateBattle); 
         }
