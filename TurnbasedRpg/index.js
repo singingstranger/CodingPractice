@@ -13,7 +13,7 @@ gsap.to("#overlappingDiv", {
     opacity:0,
     duration: 1
 });
-
+InitMaps(_startingMapIndex);
 SetTileSize(_zoomLevel);
 
 const _boundaries = [];
@@ -43,17 +43,6 @@ _battleMaps.forEach((row, i) => {
     })
 })
 
-const _playerFrontImage = new Image();
-_playerFrontImage.src = _rootDirimage+_dirCharacters+"marinFront.png";
-const _playerBackImage = new Image();
-_playerBackImage.src = _rootDirimage+_dirCharacters+"marinBack.png";
-const _playerRightImage = new Image();
-_playerRightImage.src = _rootDirimage+_dirCharacters+"marinRight.png";
-const _playerLeftImage = new Image();
-_playerLeftImage.src = _rootDirimage+_dirCharacters+"marinLeft.png";
-
-
-
 const _background = new Sprite({
     position: {
         x: _offset.x, 
@@ -67,7 +56,7 @@ const _battleBG = new Sprite({
         x: 0,
         y: 0
     },
-    image: _secondScreen
+    image: _battleScreen
 });
 
 const _player = new Sprite({

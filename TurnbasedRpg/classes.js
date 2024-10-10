@@ -5,7 +5,7 @@ class Boundary{
         this.height = _tileDimensions
     }
     draw(){
-        _context.fillStyle = "rgba(255,0, 0, 0.2)"
+        _context.fillStyle = "rgba(255,0, 0, 0)"
         _context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }

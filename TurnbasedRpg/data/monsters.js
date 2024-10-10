@@ -1,15 +1,15 @@
 const _playerSpecialImage = new Image();
-_playerSpecialImage.src = _rootDirimage+_dirCharacters+"marinSpecial.png";
+_playerSpecialImage.src = "./img/Characters/marinSpecial.png";
 
 
 const _enemyEntryImage = new Image();
-_enemyEntryImage.src = _rootDirimage+_dirEnemies+"Slime/slimeEntry.png";
+_enemyEntryImage.src = "./img/Enemies/Slime/slimeEntry.png";
 const _enemyIdleImage = new Image();
-_enemyIdleImage.src = _rootDirimage+_dirEnemies+"Slime/slimeBlinking.png";
+_enemyIdleImage.src = "./img/Enemies/Slime/slimeBlinking.png";
 const _enemyAttackImage = new Image();
-_enemyAttackImage.src = _rootDirimage+_dirEnemies+"Slime/slimeAttack.png";
+_enemyAttackImage.src = "./img/Enemies/Slime/slimeAttack.png";
 const _enemyHurtImage = new Image();
-_enemyHurtImage.src = _rootDirimage+_dirEnemies+"Slime/slimeHurt.png";
+_enemyHurtImage.src = "./img/Enemies/Slime/slimeHurt.png";
 
 
 
@@ -24,7 +24,7 @@ const monsters = {
             x: 200,
             y: 200
         },
-        image: {src: _rootDirimage+_dirCharacters+"marinSpecial.png"},
+        image: {src: _playerSpecialImage.src},
         frames: { max: 3, hold: 100},
         animate: true,
         isEnemy: false,
@@ -43,7 +43,7 @@ const monsters = {
             x: 700,
             y: 200
         },
-        image: {src: _rootDirimage+_dirEnemies+"Slime/slimeBlinking.png"},
+        image: {src: _enemyIdleImage.src},
         frames: { max: 3, hold: 100},
         sprites: {
             entry: _enemyEntryImage,

@@ -1,9 +1,13 @@
-const _rootDirimage = "./img/"
-const _dirEnemies = "Enemies/"
-const _dirCharacters = "Characters/"
-const _dirBattle = "Battle/"
-const _dirOverworld = "Overworld/"
+const _dirOverworld = "./img/Overworld/";
+const _dirBattle = "./img/Battle/";
 
+const _startingMapIndex = 1;
+let _currentMapIndex = _startingMapIndex;
+const _battleScreen = new Image();
+const _startScreen = new Image();
+
+let _collisionMaps = [];
+let _battleMaps = [];
 
 const _startingpositionTestScreen = [-600,-200];
 let _offset = {
@@ -43,3 +47,14 @@ let _battleQueue;
 const _frameTime = 10;
 let _timeLastFrame = 0;
 let _timeCurrent = 0;
+
+
+
+const _playerFrontImage = new Image();
+_playerFrontImage.src = "./img/Characters/marinFront.png";
+const _playerBackImage = new Image();
+_playerBackImage.src = "./img/Characters/marinBack.png";
+const _playerRightImage = new Image();
+_playerRightImage.src = "./img/Characters/marinRight.png";
+const _playerLeftImage = new Image();
+_playerLeftImage.src = "./img/Characters/marinLeft.png";
