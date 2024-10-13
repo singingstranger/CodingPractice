@@ -1,81 +1,12 @@
-let _battlePlayer = new Monster(monsters.Player);
-let _enemy = new Monster(monsters.Slime);
-
-
-function SetTileSize(zoom){
-    _tileDimensions *= zoom;
-}
-
-//START
 document.querySelector("#userInterface").style.display = "none";
-console.log(document.querySelector("#userInterface"));
 gsap.to("#overlappingDiv", {
     opacity:0,
     duration: 1
 });
+
 InitMaps(_startingMapIndex);
 SetTileSize(_zoomLevel);
-
-const _boundaries = [];
-_collisionMaps.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if (symbol != 0){
-            _boundaries.push(new Boundary({
-                position:{
-                    x: j * _tileDimensions + _offset.x ,
-                    y: i * _tileDimensions + _offset.y
-            }}))
-        }
-    })
-})
-
-const _battleTiles = []
-_battleMaps.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if (symbol!=0){
-            _battleTiles.push(new Boundary({
-                position:{
-                    x: j * _tileDimensions + _offset.x,
-                    y: i * _tileDimensions + _offset.y
-                }
-            }))
-        }
-    })
-})
-
-const _background = new Sprite({
-    position: {
-        x: _offset.x, 
-        y: _offset.y
-    },
-    image: _currentBackground
-});
-
-const _battleBG = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: _battleScreen
-});
-
-const _player = new Sprite({
-    name: "You",
-    position: {
-        x: _canvas.width/2 - _playerSpriteDimensions.x/_playerSpriteFrames/2,
-        y:  _canvas.height/2 - _playerSpriteDimensions.y/2,
-    },
-    image: _playerFrontImage,
-    frames: { max: _playerSpriteFrames, hold: _playerAnimationSpeed},
-    sprites: {
-        down: _playerFrontImage,
-        up: _playerBackImage,
-        right: _playerRightImage,
-        left: _playerLeftImage,
-        special: _playerSpecialImage
-    },
-    isEnemy: false
-})
+InitVisuals();
 
 _startScreen.onload = () => {
     Animate();
@@ -96,7 +27,7 @@ const _keys = {
     }
 }
 
-_movables = [_background, ..._boundaries, ..._battleTiles];
+_movables = [_background, ..._boundaries, ..._battleTiles, ..._listOfNPCs];
 function RectangularCollision({rectangle1, rectangle2}){
     return(
         rectangle1.position.x + rectangle1.width >= rectangle2.position.x && 
@@ -114,8 +45,13 @@ function Animate(){
     _battleTiles.forEach(battleTile => {
         battleTile.draw();
     })
+    if (_listOfNPCs.length != 0){
+        _listOfNPCs.forEach(npc => {
+            npc.draw();
+        })
+    }
+        
     _player.draw();
-
     let moving = true;
     let inBattleTile = false;
     let movementSpeed = _movementSpeed+3;

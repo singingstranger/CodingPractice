@@ -1,7 +1,3 @@
-const _playerSpecialImage = new Image();
-_playerSpecialImage.src = "./img/Characters/marinSpecial.png";
-
-
 const _enemyEntryImage = new Image();
 _enemyEntryImage.src = "./img/Enemies/Slime/slimeEntry.png";
 const _enemyIdleImage = new Image();
@@ -25,7 +21,7 @@ const monsters = {
             y: 200
         },
         image: {src: _playerSpecialImage.src},
-        frames: { max: 3, hold: 100},
+        frames: { max: 3, hold: 30},
         animate: true,
         isEnemy: false,
         sprites: {
@@ -44,7 +40,7 @@ const monsters = {
             y: 200
         },
         image: {src: _enemyIdleImage.src},
-        frames: { max: 3, hold: 100},
+        frames: { max: 3, hold: 30},
         sprites: {
             entry: _enemyEntryImage,
             idle: _enemyIdleImage,

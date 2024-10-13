@@ -2,10 +2,22 @@ class Boundary{
     constructor({position}){
         this.position = position
         this.width = _tileDimensions
-        this.height = _tileDimensions
+        this.height = _tileDimensions/2
     }
     draw(){
         _context.fillStyle = "rgba(255,0, 0, 0)"
+        _context.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+class Trigger{
+    constructor({position}){
+        this.position = position
+        this.width = _tileDimensions
+        this.height = _tileDimensions
+    }
+    draw(){
+        _context.fillStyle = "rgba(255,0, 0, 0.2)"
         _context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
@@ -17,7 +29,7 @@ class Sprite{
         image, 
         frames = {max: 1, hold: 10}, 
         sprites, 
-        animate = false,
+        animate = false
     }){
         this.position = position;
         this.image = new Image();
@@ -94,5 +106,27 @@ class Monster extends Sprite{
         this.health = {max: health.max, current: health.max};
         this.isEnemy = isEnemy;
         this.attacks = attacks;
+    }
+}
+class Character extends Sprite{
+    constructor({
+        position,
+        rotation = 0,
+        image, 
+        frames = {max: 1, hold: 10}, 
+        sprites, 
+        animate = true,
+
+        name = "Someone"
+    }){
+        super({
+            position,
+            rotation,
+            image, 
+            frames, 
+            sprites, 
+            animate,
+        })
+        this.name = name;
     }
 }

@@ -1,3 +1,6 @@
+let _battlePlayer = new Monster(monsters.Player);
+let _enemy = new Monster(monsters.Slime);
+
 function InitBattle(){
     
     _renderedSprites = [];
@@ -80,8 +83,6 @@ function GetRandomAttack(enemy){
 
 function Activatebattle(animID){
     InitBattle();
-    console.log(_enemy);
-    console.log(_renderedSprites);
     _renderedSprites.push(_enemy);
     _renderedSprites.push(_battlePlayer);
     gsap.to("#overlappingDiv", {
