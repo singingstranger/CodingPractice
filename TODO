@@ -1,0 +1,9 @@
+RPG: 
+mechanics: 
+- expanding queue system 
+- dialogue
+- new player sprite
+- map transitions
+- more enemy types
+- health bar color changes depending on depletion
+- attack "mana"
